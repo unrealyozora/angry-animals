@@ -1,0 +1,141 @@
+[gd_scene load_steps=9 format=3 uid="uid://d267wl23fipxi"]
+
+[ext_resource type="Script" uid="uid://e2voiclh0ses" path="res://scenes/main/main.gd" id="1_6q06x"]
+[ext_resource type="Texture2D" uid="uid://g6y4p31eylex" path="res://assets/env/MainBG.png" id="1_hyk8p"]
+[ext_resource type="PackedScene" uid="uid://4j2ehcmqdnou" path="res://scenes/level_button/level_buttons.tscn" id="2_l3cfh"]
+[ext_resource type="LabelSettings" uid="uid://c4sd2uenydx84" path="res://assets/lg_96_orange.tres" id="3_l3cfh"]
+[ext_resource type="AudioStream" uid="uid://bcuchbn7hx5r8" path="res://assets/audio/birdsong.wav" id="4_ow5a4"]
+
+[sub_resource type="Animation" id="Animation_6q06x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MC:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(223, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MC:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_l3cfh"]
+resource_name = "TitleRotation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MC:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(223, -120), Vector2(223, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MC:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ow5a4"]
+_data = {
+&"RESET": SubResource("Animation_6q06x"),
+&"TitleRotation": SubResource("Animation_l3cfh")
+}
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6q06x")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_hyk8p")
+
+[node name="HB" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -182.0
+offset_top = -50.0
+offset_right = 182.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+
+[node name="LevelButton1" parent="HB" instance=ExtResource("2_l3cfh")]
+layout_mode = 2
+
+[node name="LevelButton2" parent="HB" instance=ExtResource("2_l3cfh")]
+layout_mode = 2
+level_number = 2
+
+[node name="LevelButton3" parent="HB" instance=ExtResource("2_l3cfh")]
+layout_mode = 2
+level_number = 3
+
+[node name="MC" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -353.0
+offset_right = 353.0
+offset_bottom = 121.0
+grow_horizontal = 2
+pivot_offset = Vector2(353, 60)
+theme_override_constants/margin_top = 24
+
+[node name="Label" type="Label" parent="MC"]
+layout_mode = 2
+text = "ANGRY ANIMALS"
+label_settings = ExtResource("3_l3cfh")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ow5a4")
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ow5a4")
+}
+autoplay = "TitleRotation"
+speed_scale = 0.5
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
