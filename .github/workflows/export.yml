@@ -34,4 +34,4 @@ jobs:
         generateReleaseNotes: true
         tag: ${{ github.ref_name }}
         artifacts: ${{ steps.export.outputs.archive_directory }}/*
-        skipIfReleaseExists: true
+        allowUpdates: true
